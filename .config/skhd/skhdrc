@@ -24,3 +24,5 @@ alt + shift - h: yabai -m window --resize left:-50:0
 
 # Expand window right
 alt + shift - l: yabai -m window --resize right:50:0
+# Toggle Sticky
+alt + shift - s: yabai -m window --toggle sticky
