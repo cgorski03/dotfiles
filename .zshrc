@@ -36,4 +36,4 @@ bindkey -M isearch " " magic-space    # normal space during searches
 #}}}
 
 # Turn off power status when using spaceship prompt
-export SPACESHIP_BATTERY_SHOW=false
+export SPACESHIP_BATTERY_SHOW=falseexport PATH=~/.npm-global/bin:$PATH
