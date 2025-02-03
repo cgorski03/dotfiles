@@ -1,8 +1,14 @@
 # change window focus within space
-alt + shift - i: yabai -m window --focus south
-alt + shift - u: yabai -m window --focus north
+alt + shift - i: yabai -m window --focus north
+alt + shift - k: yabai -m window --focus south
 alt + shift - j: yabai -m window --focus west
-alt + shift - k: yabai -m window --focus east
+alt + shift - l: yabai -m window --focus east
+
+# Swap windows within space
+alt - i : yabai -m window --swap south # Swap with window below
+alt - k : yabai -m window --swap north # Swap with window above
+alt - j : yabai -m window --swap west  # Swap with window to the left
+alt - l : yabai -m window --swap east  # Swap with window to the right
 
 # change focus between external displays
 alt + shift - w: yabai -m display --focus west
@@ -24,9 +30,10 @@ alt + shift - d: yabai -m window --space next; yabai -m space --focus next
 alt + shift - return: yabai -m space --rotate 180
 
 # Expand window left
-alt + shift - h: yabai -m window --resize left:-50:0
+alt + shift - u: yabai -m window --resize left:-50:0
 
 # Expand window right
-alt + shift - l: yabai -m window --resize right:50:0
+alt + shift - o: yabai -m window --resize right:50:0
+
 # Toggle Sticky
 alt + shift - s: yabai -m window --toggle sticky
