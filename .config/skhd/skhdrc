@@ -34,3 +34,6 @@ alt + shift - u : yabai -m window --resize left:-50:0
 
 # Expand window right
 alt + shift - o : yabai -m window --resize right:50:0
+
+# Delete space
+alt + shift - delete : yabai -m space --destroy
