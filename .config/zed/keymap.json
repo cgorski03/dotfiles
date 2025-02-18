@@ -1,0 +1,16 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "shift shift": "file_finder::Toggle"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "cmd-shift-f": "editor::SelectLargerSyntaxNode",
+      "cmd-shift-d": "editor::SelectSmallerSyntaxNode",
+      "cmd-ctrl-alt-1": "workspace::NewSearch"
+    }
+  }
+]
