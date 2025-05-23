@@ -72,6 +72,7 @@
         "editor.indent_guide_active": null,
         "editor.document_highlight.read_background": "#3E4451",
         "editor.document_highlight.write_background": "#3E4451",
+        "editor.font": "Menlo",
         "terminal.background": null,
         "terminal.foreground": null,
         "terminal.bright_foreground": null,
@@ -289,7 +290,7 @@
             "font_weight": null
           },
           "type.builtin": {
-            "color": "#060023",
+            "color": "#57B6C2",
             "font_style": null,
             "font_weight": null
           },

@@ -10,7 +10,11 @@
     "bindings": {
       "cmd-shift-f": "editor::SelectLargerSyntaxNode",
       "cmd-shift-d": "editor::SelectSmallerSyntaxNode",
-      "cmd-ctrl-alt-1": "workspace::NewSearch"
+      "cmd-ctrl-alt-1": "workspace::NewSearch",
+      "alt-h": "pane::SplitRight",
+      "alt-g": "pane::SplitLeft",
+      "shift-alt-h": "workspace::ActivatePaneRight",
+      "shift-alt-g": "workspace::ActivatePaneLeft"
     }
   }
 ]
