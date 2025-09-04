@@ -23,8 +23,10 @@ alt - d : yabai -m window --display east; yabai -m display --focus east
 alt - a : yabai -m window --display west; yabai -m display --focus west
 
 # move between spaces
-alt + shift - q : yabai -m window --space prev; yabai -m space --focus prev
-alt + shift - e : yabai -m window --space next; yabai -m space --focus next
+alt - q : yabai -m window --space prev; yabai -m space --focus prev
+alt - e : yabai -m window --space next; yabai -m space --focus next
+alt + shift - q : yabai -m space --focus prev
+alt + shift - e : yabai -m space --focus next
 
 # flip along x-axis
 alt + shift - 0x24 : yabai -m space --rotate 180  # 0x24 is return key
@@ -37,3 +39,5 @@ alt + shift - o : yabai -m window --resize right:50:0
 
 # Delete space
 alt + shift - delete : yabai -m space --destroy
+
+alt + shift - z : yabai --restart-service

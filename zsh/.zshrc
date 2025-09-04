@@ -4,8 +4,12 @@ export ZSH="$HOME/.oh-my-zsh"
 # Set theme before sourcing oh-my-zsh
 ZSH_THEME="avit"
 
-source $ZSH/oh-my-zsh.sh
+#Vcpkg config
+export VCPKG_ROOT=/Users/colingorski/dev/vcpkg
 
+source $ZSH/oh-my-zsh.sh
+alias ll='lsd -l --date "+%I:%M %p %m/%d/%y" --color=auto'
+alias la='lsd -la --date "+%I:%M %p %m/%d/%y" --color=auto'
 # User configuration
 # auto suggest
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#663399,standout"
@@ -15,12 +19,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# Choose ONE z implementation:
-# Option 1: If using traditional z
-. /usr/local/etc/profile.d/z.sh
-
-# Option 2: If using zsh-z plugin (comment out Option 1 if using this)
-# This should be handled by the plugins section above
+# Zoxide
+eval "$(zoxide init zsh)"
 
 #-------- Global Alias {{{
 globalias() {
