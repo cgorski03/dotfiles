@@ -1,2 +1,4 @@
 .DS_Store
 raycast/extensions/
+.zcompdump*
+.zsh_history
