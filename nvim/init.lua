@@ -9,7 +9,7 @@ vim.o.relativenumber = true
 vim.o.mouse = "a"
 vim.o.showmode = false
 
-im.schedule(function()
+vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
 end)
 
@@ -329,7 +329,7 @@ require("lazy").setup({
 			local servers = {
 				clangd = {},
 				pyright = {},
-				typescript_language_server = {
+				["typescript-language-server"] = {
 					settings = {
 						typescript = {
 							inlayHints = {
@@ -518,10 +518,6 @@ require("lazy").setup({
 	{ -- Collection of various small independent plugins/modules
 		"echasnovski/mini.nvim",
 		config = function()
-			-- Better Around/Inside textobjects
-			--
-			-- Examples:
-			--  - va)  - [V]isually select [A]round [)]paren
 			--  - yinq - [Y]ank [I]nside [N]ext [Q]uote
 			--  - ci'  - [C]hange [I]nside [']quote
 			require("mini.ai").setup({ n_lines = 500 })
@@ -554,7 +550,6 @@ require("lazy").setup({
 	},
 	{
 		"windwp/nvim-ts-autotag",
-		-- Load this plugin only for relevant filetypes
 		ft = {
 			"html",
 			"javascript",
@@ -567,7 +562,6 @@ require("lazy").setup({
 		config = function()
 			require("nvim-ts-autotag").setup({
 				enable = true,
-				-- Ensure 'typescriptreact' is in the filetypes for .tsx files
 				filetypes = {
 					"html",
 					"xml",
