@@ -52,6 +52,7 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+vim.keymap.set("n", "<y><A>", "<g-g><0><v><G><$>", { desc = "yank whole document" })
 
 vim.keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set("n", "<right>", '<cmd>echo "Use l to move!!"<CR>')
@@ -78,7 +79,17 @@ vim.api.nvim_create_autocmd({ "FocusGained", "WinEnter" }, {
 		vim.wo.relativenumber = true
 	end,
 })
-
+local js_grp = vim.api.nvim_create_augroup("Js2Spaces", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+	group = js_grp,
+	pattern = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
+	callback = function()
+		vim.opt_local.expandtab = true
+		vim.opt_local.tabstop = 2
+		vim.opt_local.shiftwidth = 2
+		vim.opt_local.softtabstop = 2
+	end,
+})
 vim.api.nvim_create_autocmd({ "FocusLost", "WinLeave" }, {
 	pattern = "*",
 	callback = function()
@@ -503,7 +514,7 @@ require("lazy").setup({
 			-- Load the colorscheme here.
 			-- Like many other themes, this one has different styles, and you could load
 			-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-			vim.cmd.colorscheme("tokyonight-night")
+			vim.cmd.colorscheme("tokyonight-storm")
 		end,
 	},
 

@@ -1,6 +1,10 @@
 # Path to your oh-my-zsh installation
 export ZSH="$HOME/.oh-my-zsh"
 
+plugins=(
+	git
+	zsh-autosuggestions
+	)
 # Set theme before sourcing oh-my-zsh
 ZSH_THEME="avit"
 
@@ -11,9 +15,8 @@ source $ZSH/oh-my-zsh.sh
 alias ll='lsd -l --date "+%I:%M %p %m/%d/%y" --color=auto'
 alias la='lsd -la --date "+%I:%M %p %m/%d/%y" --color=auto'
 # User configuration
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#888888,bg=#222222"
 # auto suggest
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#663399,standout"
-
 # nvm config
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -104,4 +107,6 @@ git() {
 
 # Turn off power status when using spaceship prompt
 export SPACESHIP_BATTERY_SHOW=false
+# PATH modifications
 export PATH=~/.npm-global/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"
