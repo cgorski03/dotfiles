@@ -53,14 +53,14 @@ vim.keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set("n", "<right>", '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set("n", "<up>", '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set("n", "<down>", '<cmd>echo "Use j to move!!"<CR>')
-
---  Use CTRL+<hjkl> to switch between windows
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
 vim.keymap.set("n", "<leader>br", ":e!<CR>", { desc = "Force reload the current buffer" })
+vim.keymap.set("n", "<leader>db", ":Dbee toggle<CR>", { desc = "Toggle Dbee" })
+
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
@@ -75,11 +75,11 @@ vim.api.nvim_create_autocmd({ "FocusGained", "WinEnter" }, {
 		vim.wo.relativenumber = true
 	end,
 })
-local js_grp = vim.api.nvim_create_augroup("Js2Spaces", { clear = true })
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
+local js_grp = vim.api.nvim_create_augroup("Js4Spaces", { clear = true })
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.expandtab = true -- Convert tabs to spaces
-vim.opt.softtabstop = 2
+vim.opt.softtabstop = 4
 
 vim.api.nvim_create_autocmd({ "FocusLost", "WinLeave" }, {
 	pattern = "*",
@@ -106,7 +106,6 @@ rtp:prepend(lazypath)
 -- [[ Configure and install plugins ]]
 require("lazy").setup({
 	{ "numToStr/Comment.nvim", opts = {} },
-	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
 	"NMAC427/guess-indent.nvim", -- Detect tabstop and shiftwidth automatically
 	{ -- Adds git related signs to the gutter, as well as utilities for managing changes
 		"lewis6991/gitsigns.nvim",
@@ -521,7 +520,7 @@ require("lazy").setup({
 		"echasnovski/mini.nvim",
 		config = function()
 			--  - yinq - [Y]ank [I]nside [N]ext [Q]uote
-			--  - ci'  - [C]hange [I]nside [']quote
+			--  - qci  - [C]hange [I]nside [']quote
 			require("mini.ai").setup({ n_lines = 500 })
 
 			-- Add/delete/replace surroundings (brackets, quotes, etc.)
@@ -545,9 +544,6 @@ require("lazy").setup({
 			statusline.section_location = function()
 				return "%2l:%-2v"
 			end
-
-			-- ... and there is more!
-			--  Check out: https://github.com/echasnovski/mini.nvim
 		end,
 	},
 	{

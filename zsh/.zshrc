@@ -17,6 +17,7 @@ alias la='lsd -la --date "+%I:%M %p %m/%d/%y" --color=auto'
 # User configuration
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#888888,bg=#222222"
 # auto suggest
+export XDG_CONFIG_HOME="$HOME/.config"
 # nvm config
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -110,3 +111,4 @@ export SPACESHIP_BATTERY_SHOW=false
 # PATH modifications
 export PATH=~/.npm-global/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
+export PATH=/Users/colingorski/.opencode/bin:$PATH
