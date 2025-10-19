@@ -5,7 +5,6 @@ vim.g.have_nerd_font = true
 -- [[ Setting options ]]
 vim.o.number = true
 vim.o.relativenumber = true
-
 vim.o.mouse = "a"
 vim.o.showmode = false
 
@@ -18,7 +17,6 @@ vim.o.breakindent = true
 
 -- Save undo history
 vim.o.undofile = true
-
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
@@ -31,28 +29,29 @@ vim.o.timeoutlen = 300
 vim.o.splitright = true
 vim.o.splitbelow = true
 
-vim.o.list = true
-vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
-
--- Preview substitutions live, as you type!
-vim.o.inccommand = "split"
-
--- Show which line your cursor is on
 vim.o.cursorline = true
-
--- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 10
 
 vim.o.confirm = true
+
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.softtabstop = 4
+
+-- import my custom
+require("utils.lsp")
+vim.keymap.set(
+	"n",
+	"<leader>uh",
+	"<cmd>lua " .. "lsp_utils.show_resolved_type_in_buffer()" .. "<CR>",
+	{ desc = "LSP: Show Resolved Type in Buffer" }
+)
 
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
-vim.keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
-vim.keymap.set("n", "<right>", '<cmd>echo "Use l to move!!"<CR>')
-vim.keymap.set("n", "<up>", '<cmd>echo "Use k to move!!"<CR>')
-vim.keymap.set("n", "<down>", '<cmd>echo "Use j to move!!"<CR>')
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
@@ -75,11 +74,6 @@ vim.api.nvim_create_autocmd({ "FocusGained", "WinEnter" }, {
 		vim.wo.relativenumber = true
 	end,
 })
-local js_grp = vim.api.nvim_create_augroup("Js4Spaces", { clear = true })
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true -- Convert tabs to spaces
-vim.opt.softtabstop = 4
 
 vim.api.nvim_create_autocmd({ "FocusLost", "WinLeave" }, {
 	pattern = "*",
@@ -88,8 +82,6 @@ vim.api.nvim_create_autocmd({ "FocusLost", "WinLeave" }, {
 	end,
 })
 
--- [[ Install `lazy.nvim` plugin manager ]]
---    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -103,11 +95,9 @@ end
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
 require("lazy").setup({
-	{ "numToStr/Comment.nvim", opts = {} },
-	"NMAC427/guess-indent.nvim", -- Detect tabstop and shiftwidth automatically
-	{ -- Adds git related signs to the gutter, as well as utilities for managing changes
+	"NMAC427/guess-indent.nvim",
+	{
 		"lewis6991/gitsigns.nvim",
 		opts = {
 			signs = {
@@ -125,7 +115,7 @@ require("lazy").setup({
 		opts = {
 			-- delay between pressing a key and opening which-key (milliseconds)
 			-- this setting is independent of vim.o.timeoutlen
-			delay = 0,
+			delay = 1000,
 			icons = {
 				-- set icon mappings to true if you have a Nerd Font
 				mappings = vim.g.have_nerd_font,
@@ -423,6 +413,7 @@ require("lazy").setup({
 			end,
 			formatters_by_ft = {
 				lua = { "stylua" },
+				json = { "jq" },
 				-- Conform can also run multiple formatters sequentially
 				-- python = { "isort", "black" },
 				--

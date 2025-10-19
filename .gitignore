@@ -1,5 +1,6 @@
 .DS_Store
 raycast/extensions/
+.wrangler/
 .zcompdump*
 .zsh_history
 .zsh_sessions
