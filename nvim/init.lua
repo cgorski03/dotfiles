@@ -552,10 +552,10 @@ require("lazy").setup({
 			lang = "python3",
 		},
 	},
-	require("kickstart.plugins.indent_line"),
-	require("kickstart.plugins.lint"),
-	require("kickstart.plugins.autopairs"),
-	require("kickstart.plugins.neo-tree"),
+	require("custom.plugins.indent-line"),
+	require("custom.plugins.lint"),
+	require("custom.plugins.autopairs"),
+	require("custom.plugins.neo-tree"),
 	{ import = "custom.plugins" },
 }, {
 	ui = {
