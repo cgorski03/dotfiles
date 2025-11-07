@@ -552,11 +552,11 @@ require("lazy").setup({
 			lang = "python3",
 		},
 	},
-	require("custom.plugins.indent-line"),
-	require("custom.plugins.lint"),
-	require("custom.plugins.autopairs"),
-	require("custom.plugins.neo-tree"),
-	{ import = "custom.plugins" },
+	require("plugins.indent-line"),
+	require("plugins.lint"),
+	require("plugins.autopairs"),
+	require("plugins.neo-tree"),
+	{ import = "plugins" },
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
