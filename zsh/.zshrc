@@ -4,6 +4,7 @@ export ZSH="$HOME/.oh-my-zsh"
 plugins=(
 	git
 	zsh-autosuggestions
+	fzf
 	)
 # Set theme before sourcing oh-my-zsh
 ZSH_THEME="avit"

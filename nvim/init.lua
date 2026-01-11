@@ -357,7 +357,6 @@ require("lazy").setup({
 			})
 		end,
 	},
-
 	{ -- Autoformat
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
@@ -372,34 +371,37 @@ require("lazy").setup({
 				desc = "[F]ormat buffer",
 			},
 		},
-		opts = {
-			notify_on_error = false,
-			format_on_save = function(bufnr)
-				-- Disable "format_on_save lsp_fallback" for languages that don't
-				-- have a well standardized coding style. You can add additional
-				-- languages here or re-enable it for the disabled ones.
-				local disable_filetypes = { c = true, cpp = true }
-				if disable_filetypes[vim.bo[bufnr].filetype] then
-					return nil
-				else
+		opts = function()
+			-- Define the prettier config once to reuse it
+			local prettier_config = { "prettierd", "prettier", stop_after_first = true }
+
+			return {
+				notify_on_error = false,
+				format_on_save = function(bufnr)
+					local disable_filetypes = { c = true, cpp = true }
+					if disable_filetypes[vim.bo[bufnr].filetype] then
+						return nil
+					end
 					return {
 						timeout_ms = 500,
 						lsp_format = "fallback",
 					}
-				end
-			end,
-			formatters_by_ft = {
-				lua = { "stylua" },
-				json = { "jq" },
-				-- Conform can also run multiple formatters sequentially
-				-- python = { "isort", "black" },
-				--
-				-- You can use 'stop_after_first' to run the first available formatter from the list
-				-- javascript = { "prettierd", "prettier", stop_after_first = true },
-			},
-		},
+				end,
+				formatters_by_ft = {
+					lua = { "stylua" },
+					javascript = prettier_config,
+					typescript = prettier_config,
+					javascriptreact = prettier_config,
+					typescriptreact = prettier_config,
+					json = prettier_config,
+					html = prettier_config,
+					css = prettier_config,
+					markdown = prettier_config,
+					yaml = prettier_config,
+				},
+			}
+		end,
 	},
-
 	{ -- Autocompletion
 		"saghen/blink.cmp",
 		event = "VimEnter",
