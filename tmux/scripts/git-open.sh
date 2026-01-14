@@ -24,7 +24,7 @@ HTTP_URL=$(echo "$REMOTE_URL" | sed \
   -e 's/^git@\([^:]*\):/https:\/\/\1\//' \
   -e 's/\.git$//')
 
-echo "Opening GitLab repository: $HTTP_URL"
+echo "Opening Remote Repository: $HTTP_URL"
 
 # This is a wsl thing to refer to explorer to open URL
 "open" "$HTTP_URL" || true

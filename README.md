@@ -1,35 +1,26 @@
+# Colin's Dotfiles
 
-### Window Stuff
-- **yabai** -
-- **skhd** -
+Hi, this is my dotfiles repo. Its for me, so its poorly documented and changes often.
 
+## What's In Here
 
-## How Windows Work
+### Terminal & Shell
 
-### Basic Setup
-I have yabai set up so windows automatically arrange themselves in a nice grid pattern. New windows appear to the right or bottom of whatever I'm currently looking at. There's just a tiny 2px gap between windows.
+- **zsh**
+- **ghostty**
+- **tmux**
 
-### Special Windows
-- System Settings - always needs to be accessible
-- Messages - I want this to stay visible, i control it with raycast 
+### Editor & Git
 
-## Keyboard Shortcuts
+- **nvim** - neovim setup, no crazy plugings
+- **git** - git config and aliases
 
-### Moving Around Windows
-- `Alt + Shift + I/K/J/L` - Jump focus to window above/below/left/right 
-- `Alt + I/K/J/L` - Actually swap window positions
+### Window Management (macOS)
 
-### Multiple Monitors
-- `Alt + Shift + W/S/D/A` - Jump between different screens
-- `Alt + W/S/D/A` - Move a window to another screen and follow it there
+- **yabai** - Tiling window manager. Auto-arranges windows and spaces
+- **skhd** - Hotkey daemon used for yabai
+- **raycast** - Spotlight replacement
 
-### Virtual Desktops (Spaces)
-- `Alt + Q/E` - Move window to previous/next desktop and go there
-- `Alt + Shift + Q/E` - Just switch desktops without moving windows
-- `Alt + Shift + Delete` - Delete empty desktops
+## Random Notes
 
-### Other Window Stuff
-- `Alt + Shift + U/O` - Make current window wider/narrower
-- `Alt + Shift + Return` - Flip the entire desktop upside down
-- `Alt + Shift + Z` - Restart yabai
-
+- Most configs are pretty minimal, I try to avoid wasting as much time as i know i could in here
