@@ -39,6 +39,9 @@ zle -N globalias
 bindkey " " globalias                 # space key to expand globalalias
 bindkey "^[[Z" magic-space            # shift-tab to bypass completion
 bindkey -M isearch " " magic-space    # normal space during searches
+bindkey '^Y' autosuggest-accept
+bindkey '^N' forward-word
+
 #}}}
 git() {
     local original_subcommand="$1"
