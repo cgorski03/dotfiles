@@ -18,9 +18,9 @@ return {
 	},
 	opts = {
 		window = {
-			width = 30, -- Set a custom width for the file explorer
+			width = 30,
 			mappings = {
-				["<space>"] = "none", -- Disable the space key for now if you like
+				["<space>"] = "none",
 			},
 		},
 		filesystem = {
@@ -28,6 +28,15 @@ return {
 				visible = true,
 				hide_dotfiles = false,
 				hide_gitignored = true,
+			},
+		},
+		event_handlers = {
+			{
+				event = "neo_tree_buffer_enter",
+				handler = function()
+					vim.opt_local.relativenumber = true
+					vim.opt_local.number = true
+				end,
 			},
 		},
 	},

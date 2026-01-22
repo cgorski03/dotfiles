@@ -56,7 +56,7 @@ vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left wind
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
-
+vim.keymap.set("n", "<leader>gr", "<cmd>!git restore %<CR><cmd>edit!<CR>", { desc = "Git restore current file" })
 vim.keymap.set("n", "<leader>br", ":e!<CR>", { desc = "Force reload the current buffer" })
 vim.keymap.set("n", "<leader>db", ":Dbee toggle<CR>", { desc = "Toggle Dbee" })
 
@@ -389,10 +389,10 @@ require("lazy").setup({
 				end,
 				formatters_by_ft = {
 					lua = { "stylua" },
-					javascript = prettier_config,
-					typescript = prettier_config,
-					javascriptreact = prettier_config,
-					typescriptreact = prettier_config,
+					javascript = { "prettierd", "eslint_d" },
+					typescript = { "prettierd", "eslint_d" },
+					javascriptreact = { "prettierd", "eslint_d" },
+					typescriptreact = { "prettierd", "eslint_d" },
 					json = prettier_config,
 					html = prettier_config,
 					css = prettier_config,
