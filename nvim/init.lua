@@ -8,10 +8,6 @@ vim.o.relativenumber = true
 vim.o.mouse = "a"
 vim.o.showmode = false
 
-vim.schedule(function()
-	vim.o.clipboard = "unnamedplus"
-end)
-
 -- Enable break indent
 vim.o.breakindent = true
 
