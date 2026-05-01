@@ -1,4 +1,3 @@
-# Path to your oh-my-zsh installation
 export ZSH="$HOME/.oh-my-zsh"
 
 plugins=(
@@ -15,34 +14,24 @@ export VCPKG_ROOT=/Users/colingorski/dev/vcpkg
 source $ZSH/oh-my-zsh.sh
 alias ll='lsd -l --date "+%I:%M %p %m/%d/%y" --color=auto'
 alias la='lsd -la --date "+%I:%M %p %m/%d/%y" --color=auto'
+
+alias vim='nvim'
+
 # User configuration
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#888888,bg=#222222"
 # auto suggest
 export XDG_CONFIG_HOME="$HOME/.config"
 # nvm config
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  
 
 # Zoxide
 eval "$(zoxide init zsh)"
 
-#-------- Global Alias {{{
-globalias() {
-    if [[ $LBUFFER =~ '[a-zA-Z0-9]+$' ]]; then
-        zle _expand_alias
-        zle expand-word
-    fi
-    zle self-insert
-}
-zle -N globalias
-bindkey " " globalias                 # space key to expand globalalias
-bindkey "^[[Z" magic-space            # shift-tab to bypass completion
-bindkey -M isearch " " magic-space    # normal space during searches
 bindkey '^Y' autosuggest-accept
 bindkey '^N' forward-word
 
-#}}}
 git() {
     local original_subcommand="$1"
     local corrected_subcommand="$1"
@@ -109,10 +98,10 @@ git() {
     # and the rest of the arguments
     command git "$corrected_subcommand" "${rest_args[@]}"
 }
+eval "$(direnv hook zsh)"
 
-# Turn off power status when using spaceship prompt
 export SPACESHIP_BATTERY_SHOW=false
-# PATH modifications
+
 export PATH=~/.npm-global/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=/Users/colingorski/.opencode/bin:$PATH
