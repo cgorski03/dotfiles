@@ -7,11 +7,10 @@ return {
 
 			lint.linters_by_ft = {
 				markdown = { "markdownlint" },
-				-- ADD THESE LINES:
-				javascript = { "eslint_d" },
-				typescript = { "eslint_d" },
-				javascriptreact = { "eslint_d" },
-				typescriptreact = { "eslint_d" },
+				javascript = { "oxlint" },
+				typescript = { "oxlint" },
+				javascriptreact = { "oxlint" },
+				typescriptreact = { "oxlint" },
 			}
 
 			local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

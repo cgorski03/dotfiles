@@ -23,4 +23,4 @@ Hi, this is my dotfiles repo. Its for me, so its poorly documented and changes o
 
 ## Random Notes
 
-- Most configs are pretty minimal, I try to avoid wasting as much time as i know i could in here
+- I try to avoid wasting as much time as i know i could in here

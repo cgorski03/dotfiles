@@ -4,3 +4,7 @@ raycast/extensions/
 .zcompdump*
 .zsh_history
 .zsh_sessions
+.nvimlog
+swiftpm/
+# Actual binary
+click-point

@@ -34,9 +34,62 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.softtabstop = 4
+vim.opt.guicursor = ""
 
 -- import my custom
 require("utils.lsp")
+local diagnostics_enabled = true
+
+local diagnostic_config_enabled = {
+	severity_sort = true,
+	float = { border = "rounded", source = "if_many" },
+	underline = { severity = vim.diagnostic.severity.ERROR },
+	signs = vim.g.have_nerd_font and {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "󰅚 ",
+			[vim.diagnostic.severity.WARN] = "󰀪 ",
+			[vim.diagnostic.severity.INFO] = "󰋽 ",
+			[vim.diagnostic.severity.HINT] = "󰌶 ",
+		},
+	} or {},
+	virtual_text = {
+		source = "if_many",
+		spacing = 2,
+		format = function(diagnostic)
+			local diagnostic_message = {
+				[vim.diagnostic.severity.ERROR] = diagnostic.message,
+				[vim.diagnostic.severity.WARN] = diagnostic.message,
+				[vim.diagnostic.severity.INFO] = diagnostic.message,
+				[vim.diagnostic.severity.HINT] = diagnostic.message,
+			}
+			return diagnostic_message[diagnostic.severity]
+		end,
+	},
+}
+
+local diagnostic_config_disabled = {
+	virtual_text = false,
+	signs = false,
+	underline = false,
+	update_in_insert = false,
+}
+
+local function set_diagnostics_enabled(enabled)
+	diagnostics_enabled = enabled
+	if diagnostics_enabled then
+		vim.diagnostic.config(diagnostic_config_enabled)
+		vim.diagnostic.show()
+	else
+		vim.diagnostic.hide()
+		vim.diagnostic.config(diagnostic_config_disabled)
+	end
+end
+
+local function toggle_diagnostics()
+	set_diagnostics_enabled(not diagnostics_enabled)
+	vim.notify("Diagnostics " .. (diagnostics_enabled and "enabled" or "disabled"), vim.log.levels.INFO)
+end
+
 vim.keymap.set(
 	"n",
 	"<leader>uh",
@@ -47,6 +100,7 @@ vim.keymap.set(
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>tl", toggle_diagnostics, { desc = "[T]oggle [L]SP diagnostics" })
 
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
@@ -263,32 +317,7 @@ require("lazy").setup({
 
 			-- Diagnostic Config
 			-- See :help vim.diagnostic.Opts
-			vim.diagnostic.config({
-				severity_sort = true,
-				float = { border = "rounded", source = "if_many" },
-				underline = { severity = vim.diagnostic.severity.ERROR },
-				signs = vim.g.have_nerd_font and {
-					text = {
-						[vim.diagnostic.severity.ERROR] = "󰅚 ",
-						[vim.diagnostic.severity.WARN] = "󰀪 ",
-						[vim.diagnostic.severity.INFO] = "󰋽 ",
-						[vim.diagnostic.severity.HINT] = "󰌶 ",
-					},
-				} or {},
-				virtual_text = {
-					source = "if_many",
-					spacing = 2,
-					format = function(diagnostic)
-						local diagnostic_message = {
-							[vim.diagnostic.severity.ERROR] = diagnostic.message,
-							[vim.diagnostic.severity.WARN] = diagnostic.message,
-							[vim.diagnostic.severity.INFO] = diagnostic.message,
-							[vim.diagnostic.severity.HINT] = diagnostic.message,
-						}
-						return diagnostic_message[diagnostic.severity]
-					end,
-				},
-			})
+				set_diagnostics_enabled(diagnostics_enabled)
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 			local servers = {
 				clangd = {},
@@ -370,6 +399,7 @@ require("lazy").setup({
 		opts = function()
 			-- Define the prettier config once to reuse it
 			local prettier_config = { "prettierd", "prettier", stop_after_first = true }
+			local conform_util = require("conform.util")
 
 			return {
 				notify_on_error = false,
@@ -383,12 +413,21 @@ require("lazy").setup({
 						lsp_format = "fallback",
 					}
 				end,
+				formatters = {
+					oxlint = {
+						command = conform_util.from_node_modules("oxlint"),
+						args = { "--fix", "--silent", "$FILENAME" },
+						stdin = false,
+						cwd = conform_util.root_file({ ".oxlintrc.json", ".oxlintrc.jsonc", "package.json" }),
+						exit_codes = { 0, 1 },
+					},
+				},
 				formatters_by_ft = {
 					lua = { "stylua" },
-					javascript = { "prettierd", "eslint_d" },
-					typescript = { "prettierd", "eslint_d" },
-					javascriptreact = { "prettierd", "eslint_d" },
-					typescriptreact = { "prettierd", "eslint_d" },
+					javascript = { "prettierd", "oxlint" },
+					typescript = { "prettierd", "oxlint" },
+					javascriptreact = { "prettierd", "oxlint" },
+					typescriptreact = { "prettierd", "oxlint" },
 					json = prettier_config,
 					html = prettier_config,
 					css = prettier_config,
