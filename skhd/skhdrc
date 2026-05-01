@@ -11,10 +11,10 @@ alt - h : yabai -m window --swap west
 alt - l : yabai -m window --swap east
 
 # change focus between external displays
-alt + shift - w : yabai -m display --focus north
-alt + shift - s : yabai -m display --focus south
-alt + shift - d : yabai -m display --focus east
-alt + shift - a : yabai -m display --focus west
+alt + shift - w : ~/.config/yabai/focus-display north
+alt + shift - s : ~/.config/yabai/focus-display south
+alt + shift - d : ~/.config/yabai/focus-display east
+alt + shift - a : ~/.config/yabai/focus-display west
 
 # move window to display left and right
 alt - w : yabai -m window --display north; yabai -m display --focus north
@@ -23,10 +23,10 @@ alt - d : yabai -m window --display east; yabai -m display --focus east
 alt - a : yabai -m window --display west; yabai -m display --focus west
 
 # move between spaces
-alt - q : yabai -m window --space prev; yabai -m space --focus prev
-alt - e : yabai -m window --space next; yabai -m space --focus next
-alt + shift - q : yabai -m space --focus prev
-alt + shift - e : yabai -m space --focus next
+alt - q : ~/.config/yabai/space-on-display prev --move-window
+alt - e : ~/.config/yabai/space-on-display next --move-window
+alt + shift - q : ~/.config/yabai/space-on-display prev
+alt + shift - e : ~/.config/yabai/space-on-display next
 
 # flip along x-axis
 alt + shift - 0x24 : yabai -m space --rotate 180  # 0x24 is return key

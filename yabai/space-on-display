@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+direction="${1:-}"
+move_window="${2:-}"
+
+if [[ "$direction" != "prev" && "$direction" != "next" ]]; then
+  exit 2
+fi
+
+current_space_json="$(yabai -m query --spaces --space)"
+current_space="$(jq -r '.index' <<<"$current_space_json")"
+current_display="$(jq -r '.display' <<<"$current_space_json")"
+
+display_spaces="$(
+  yabai -m query --spaces |
+    jq -r --argjson display "$current_display" \
+      '[.[] | select(.display == $display) | .index] | sort | .[]'
+)"
+display_spaces_json="$(printf '%s\n' "$display_spaces" | jq -Rsc 'split("\n")[:-1] | map(tonumber)')"
+
+target_space="$(
+  jq -nr \
+    --arg direction "$direction" \
+    --argjson current "$current_space" \
+    --argjson spaces "$display_spaces_json" \
+    '
+      ($spaces | index($current)) as $i |
+      if $i == null then empty
+      elif $direction == "prev" and $i > 0 then $spaces[$i - 1]
+      elif $direction == "next" and $i < (($spaces | length) - 1) then $spaces[$i + 1]
+      else empty
+      end
+    '
+)"
+
+if [[ -z "$target_space" ]]; then
+  exit 0
+fi
+
+if [[ "$move_window" == "--move-window" ]]; then
+  yabai -m window --space "$target_space"
+fi
+
+yabai -m space --focus "$target_space"

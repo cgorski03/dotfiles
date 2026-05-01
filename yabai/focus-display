@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+log_file="${YABAI_FOCUS_DISPLAY_LOG:-/tmp/yabai-focus-display.log}"
+direction="${1:-}"
+
+log() {
+  printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" >>"$log_file"
+}
+
+case "$direction" in
+  north|east|south|west|prev|next|first|last|recent) ;;
+  *)
+    log "invalid direction: ${direction:-<empty>}"
+    exit 2
+    ;;
+esac
+
+log "start direction=$direction"
+
+before_display_json="$(yabai -m query --displays --display 2>&1 || true)"
+before_space_json="$(yabai -m query --spaces --space 2>&1 || true)"
+
+log "before focused_display=$before_display_json"
+log "before focused_space=$before_space_json"
+
+before_windows_json="$(yabai -m query --windows 2>&1 || true)"
+log "before windows=$before_windows_json"
+
+target_display_json="$(yabai -m query --displays --display "$direction" 2>&1 || true)"
+
+if [[ -z "$target_display_json" || "$target_display_json" != \{* ]]; then
+  log "no target display for direction=$direction result=$target_display_json"
+  exit 0
+fi
+
+target_display="$(jq -r '.index' <<<"$target_display_json")"
+click_x="$(jq -r '(.frame.x + (.frame.w / 2)) | floor' <<<"$target_display_json")"
+click_y="$(jq -r '(.frame.y + (.frame.h / 2)) | floor' <<<"$target_display_json")"
+log "target display index=$target_display json=$target_display_json"
+
+target_space="$(
+  yabai -m query --spaces 2>>"$log_file" |
+    jq -r --argjson display "$target_display" '
+      (
+        [.[] | select(.display == $display and ."is-visible") | .index] |
+        first
+      ) // (
+        [.[] | select(.display == $display) | .index] |
+        sort |
+        first
+      ) // empty
+    '
+)"
+log "target visible space=$target_space"
+
+display_focus_output="$(yabai -m display --focus "$target_display" 2>&1)" || display_focus_status=$?
+display_focus_status="${display_focus_status:-0}"
+log "display --focus $target_display status=$display_focus_status output=$display_focus_output"
+
+if [[ -n "$target_space" ]]; then
+  space_focus_output="$(yabai -m space --focus "$target_space" 2>&1)" || space_focus_status=$?
+  space_focus_status="${space_focus_status:-0}"
+  log "space --focus $target_space status=$space_focus_status output=$space_focus_output"
+fi
+
+after_display_json="$(yabai -m query --displays --display 2>&1 || true)"
+after_space_json="$(yabai -m query --spaces --space 2>&1 || true)"
+after_windows_json="$(yabai -m query --windows 2>&1 || true)"
+
+log "after focused_display=$after_display_json"
+log "after focused_space=$after_space_json"
+log "after windows=$after_windows_json"
+
+after_display="$(jq -r '.index // empty' <<<"$after_display_json" 2>/dev/null || true)"
+
+if [[ "$after_display" != "$target_display" ]]; then
+  log "focus still on display=${after_display:-<unknown>}; clicking target center=${click_x},${click_y}"
+
+  click_status=0
+  click_output="$(~/.config/yabai/click-point "$click_x" "$click_y" 2>&1)" || click_status=$?
+  click_status="${click_status:-0}"
+  log "click status=$click_status output=$click_output"
+
+  sleep 0.20
+
+  post_click_display_json="$(yabai -m query --displays --display 2>&1 || true)"
+  post_click_space_json="$(yabai -m query --spaces --space 2>&1 || true)"
+  post_click_windows_json="$(yabai -m query --windows 2>&1 || true)"
+
+  log "post-click focused_display=$post_click_display_json"
+  log "post-click focused_space=$post_click_space_json"
+  log "post-click windows=$post_click_windows_json"
+
+  display_focus_retry_status=0
+  display_focus_retry_output="$(yabai -m display --focus "$target_display" 2>&1)" || display_focus_retry_status=$?
+  display_focus_retry_status="${display_focus_retry_status:-0}"
+  log "retry display --focus $target_display status=$display_focus_retry_status output=$display_focus_retry_output"
+
+  if [[ -n "$target_space" ]]; then
+    space_focus_retry_status=0
+    space_focus_retry_output="$(yabai -m space --focus "$target_space" 2>&1)" || space_focus_retry_status=$?
+    space_focus_retry_status="${space_focus_retry_status:-0}"
+    log "retry space --focus $target_space status=$space_focus_retry_status output=$space_focus_retry_output"
+  fi
+
+  final_display_json="$(yabai -m query --displays --display 2>&1 || true)"
+  final_space_json="$(yabai -m query --spaces --space 2>&1 || true)"
+  final_windows_json="$(yabai -m query --windows 2>&1 || true)"
+
+  log "final focused_display=$final_display_json"
+  log "final focused_space=$final_space_json"
+  log "final windows=$final_windows_json"
+fi
