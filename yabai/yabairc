@@ -28,3 +28,6 @@ yabai -m mouse_drop_action swap
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Messages*" manage=off sticky=on
 yabai -m rule --add app="^Chromium*" manage=off
+
+# Auto-stack new TablePro windows so native tabs don't split the layout.
+yabai -m signal --add event=window_created app="^TablePro$" action='yabai -m window --insert stack'

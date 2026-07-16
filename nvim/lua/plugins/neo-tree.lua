@@ -15,6 +15,13 @@ return {
 			end,
 			desc = "Explorer NeoTree (reveal)",
 		},
+		{
+			"<leader>gs",
+			function()
+				require("neo-tree.command").execute({ source = "git_status", toggle = true })
+			end,
+			desc = "Git status NeoTree",
+		},
 	},
 	opts = {
 		window = {

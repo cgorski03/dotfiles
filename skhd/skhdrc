@@ -37,7 +37,12 @@ alt + shift - u : yabai -m window --resize left:-50:0
 # Expand window right
 alt + shift - o : yabai -m window --resize right:50:0
 
+# Cycle stacked windows
+alt - n : yabai -m window --focus stack.next
+alt - p : yabai -m window --focus stack.prev
+
 # Delete space
 alt + shift - delete : yabai -m space --destroy
 
-alt + shift - z : yabai --restart-service
+alt + shift - z : yabai -m window --toggle zoom-fullscreen
+alt + shift + ctrl - z : yabai --restart-service
